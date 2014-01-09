@@ -60,7 +60,7 @@ app.config(['$httpProvider', function($httpProvider) {
       },
 
       response: function(response) {
-        if(!SOLLoader.shouldShowOnRequestSuccess) {
+        if(!SOLLoader.shouldShowOnRequestSuccess()) {
           SOLLoader.hide();
         }
 
