@@ -2,9 +2,19 @@ var app = angular.module('showOnLoad', []);
 
 app.factory('SOLLoader', function() {
 
+  var showOnRequestSuccess = false;
+
   var api = {
     status: {
       visible: false
+    },
+
+    showOnRequestSuccess: function() {
+      showOnRequestSuccess = true;
+    },
+
+    shouldShowOnRequestSuccess: function() {
+      return showOnRequestSuccess;
     },
 
     show: function() {
@@ -12,6 +22,7 @@ app.factory('SOLLoader', function() {
     },
 
     hide: function() {
+      showOnRequestSuccess = true;  
       api.status.visible = false;
     }
   }
@@ -40,21 +51,24 @@ app.config(['$httpProvider', function($httpProvider) {
   $httpProvider.interceptors.push(['$q', 'SOLLoader', function($q, SOLLoader) {
     return {
       request: function(config) {
-        SOLLoader.status.visible = true;
+        SOLLoader.show();
         return config || $q.when(config);
       },
 
       requestError: function() {
-        SOLLoader.status.visible = false;
+        SOLLoader.hide();
       },
 
       response: function(response) {
-        SOLLoader.status.visible = false;
+        if(!SOLLoader.shouldShowOnRequestSuccess) {
+          SOLLoader.hide();
+        }
+
         return response || $q.when(response);
       },
 
       responseError: function(response) {
-        SOLLoader.status.visible = false;
+        SOLLoader.hide();
       }
     }
   }]);
