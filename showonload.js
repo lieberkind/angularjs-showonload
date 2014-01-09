@@ -1,5 +1,16 @@
 var app = angular.module('showOnLoad', []);
 
+app.factory('SOLService', function() {
+
+  var api = {
+    status: {
+      visible: false
+    }
+  }
+
+  return api;
+});
+
 app.factory('SOLInterceptor', ['SOLService', function(SOLService) {
   return {
     request: function(config) {
@@ -21,14 +32,6 @@ app.factory('SOLInterceptor', ['SOLService', function(SOLService) {
     }
   }
 }]);
-
-app.factory('SOLService', function() {
-  return {
-    status: {
-      visible: false
-    }
-  }
-});
 
 app.directive('showOnLoad', ['SOLService', function(SOLService) {
   return {
