@@ -1,0 +1,25 @@
+<!doctype html>
+<html ng-app="showOnLoadTest">
+<head>
+  <meta charset="UTF-8">
+  <title>showonajax test</title>
+</head>
+<body>
+  <div ng-controller="AppCtrl">
+    <button ng-click="httpRequest()">Make http request</button>
+    <button ng-click="nonHttpRequest()">Call non-http function</button>
+
+    <div show-on-load>
+      Hello!
+    </div>
+
+    <div show-on-load>
+      From the other side!
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.js"></script>
+  <script src="showonload.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
