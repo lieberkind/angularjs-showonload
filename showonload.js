@@ -11,28 +11,6 @@ app.factory('SOLService', function() {
   return api;
 });
 
-app.factory('SOLInterceptor', ['SOLService', function(SOLService) {
-  return {
-    request: function(config) {
-      SOLService.status.visible = true;
-      return config;
-    },
-
-    requestError: function() {
-      SOLService.status.visible = false;
-    },
-
-    response: function(response) {
-      SOLService.status.visible = false;
-      return response;
-    },
-
-    responseError: function(response) {
-      SOLService.status.visible = false;
-    }
-  }
-}]);
-
 app.directive('showOnLoad', ['SOLService', function(SOLService) {
   return {
     restrict: 'A',
@@ -49,5 +27,27 @@ app.directive('showOnLoad', ['SOLService', function(SOLService) {
 }]);
 
 app.config(['$httpProvider', function($httpProvider) {
-  $httpProvider.interceptors.push('SOLInterceptor');
+  // Register the interceptor as an anonymous service as to not
+  // expose it to the public
+  $httpProvider.interceptors.push(['$q', 'SOLService', function($q, SOLService) {
+    return {
+      request: function(config) {
+        SOLService.status.visible = true;
+        return config || $q.when(config);
+      },
+
+      requestError: function() {
+        SOLService.status.visible = false;
+      },
+
+      response: function(response) {
+        SOLService.status.visible = false;
+        return response || $q.when(response);
+      },
+
+      responseError: function(response) {
+        SOLService.status.visible = false;
+      }
+    }
+  }]);
 }]);
