@@ -1,16 +1,16 @@
 var app = angular.module('showOnLoadTest', ['showOnLoad']);
 
-app.controller('AppCtrl', ['$scope', '$http', '$timeout','SOLService', function($scope, $http, $timeout, SOLService) {
+app.controller('AppCtrl', ['$scope', '$http', '$timeout', 'SOLLoader', function($scope, $http, $timeout, SOLLoader) {
   
   $scope.httpRequest = function() {
     $http.get('data.php');
   }
 
   $scope.nonHttpRequest = function() {
-    SOLService.status.visible = true;
+    SOLLoader.show();
     $timeout(function() {
       console.log('I\'m not an http request');
-      SOLService.status.visible = false;
+      SOLLoader.hide();
     }, 1500);
   }
 
