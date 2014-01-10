@@ -3,10 +3,23 @@ var app = angular.module('showOnLoad', []);
 app.factory('SOLLoader', function() {
 
   var showOnRequestSuccess = false;
+  var enabled = true;
 
   var api = {
     status: {
       visible: false
+    },
+
+    disableOnHttp: function() {
+      enabled = false;
+    },
+
+    enableOnHttp: function() {
+      enabled = true;
+    },
+
+    enabledOnHttp: function() {
+      return enabled;
     },
 
     showOnRequestSuccess: function() {
@@ -51,7 +64,7 @@ app.config(['$httpProvider', function($httpProvider) {
   $httpProvider.interceptors.push(['$q', 'SOLLoader', function($q, SOLLoader) {
     return {
       request: function(config) {
-        SOLLoader.show();
+        if (SOLLoader.enabledOnHttp) SOLLoader.show();
         return config || $q.when(config);
       },
 

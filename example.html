@@ -8,6 +8,7 @@
   <div ng-controller="AppCtrl">
     <button ng-click="httpRequest()">Make http request</button>
     <button ng-click="nonHttpRequest()">Call non-http function</button>
+    <button ng-click="disabledRequest()">Request without loader showing</button>
 
     <div show-on-load>
       Hello!
@@ -19,7 +20,7 @@
   </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.js"></script>
-  <script src="showonload.js"></script>
+  <script src="showonload.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

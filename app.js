@@ -22,4 +22,17 @@ app.controller('AppCtrl', ['$scope', '$http', '$timeout', 'SOLLoader', function(
     }, 1500);
   }
 
+  $scope.disabledRequest = function() {
+    console.log('Disabling loader...');
+    SOLLoader.disableOnHttp();
+    console.log('Disabled!');
+    console.log('Sending request...');
+    $http.get('data.php').then(function() {
+      console.log('Request finished!');
+      console.log('Reenabling loader...');
+      SOLLoader.enableOnHttp();
+      console.log('Enabled!');
+    });
+  }
+
 }]);
